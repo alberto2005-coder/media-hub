@@ -101,7 +101,6 @@ function createWindow() {
     icon: path.join(WEB_DIR, 'icons', 'icon-512.png'),
     webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, nodeIntegration: false, sandbox: true }
   });
-  win.webContents.openDevTools();
   const home = `http://127.0.0.1:${serverPort}/`;
   win.loadURL(home);
   // Enlaces externos: siempre en el navegador del sistema
