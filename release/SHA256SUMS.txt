@@ -1,0 +1,2 @@
+﻿28985ac2e5972d71b436ae36f940db28ffef34778517b70ae7dab0093a7db0f8  MediaHub-1.0.0-portable.exe
+d4f9b229f1213bcc1d6f4744614bbcd5d358d48899d09214c74a60e42faad1a4  MediaHub-1.0.0-windows-x64.zip
