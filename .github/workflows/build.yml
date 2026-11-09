@@ -1,41 +1,66 @@
-name: Build
+name: Deploy Web and Build Executables
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
 
+# Permisos necesarios para publicar en GitHub Pages y crear lanzamientos
 permissions:
   contents: read
   pages: write
   id-token: write
 
-jobs:
-  windows-exe:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run dist:win
-      - uses: actions/upload-artifact@v4
-        with:
-          name: MediaHub-windows
-          path: dist/*.exe
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
-  web-pages:
-    runs-on: ubuntu-latest
+jobs:
+  # 1. Despliegue de la web estática a GitHub Pages
+  deploy-pages:
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact (Carpeta web)
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: web
-      - id: deploy
+          path: './web' # Despliega la carpeta web de tu proyecto
+
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
+
+  # 2. Compilación del ejecutable portable para Windows (.exe)
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Portable Executable
+        run: npm run release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows Executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: MediaHub-Portable-Exe
+          path: release/*.exe
