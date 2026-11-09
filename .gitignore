@@ -1,0 +1,22 @@
+# Dependencias
+node_modules/
+
+# Empaquetado y compilación temporal
+dist/
+build-tmp/
+*.log
+
+# Binarios de release (>100MB, subir a GitHub Releases)
+release/*.exe
+release/*.zip
+
+# Entornos y claves privadas
+.env
+*.env
+!.env.example
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

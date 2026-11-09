@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: http: data: blob: file:; media-src 'self' https: http: blob: file:; connect-src 'self' https: http:; style-src 'self' 'unsafe-inline'; script-src 'self'; worker-src 'self' blob:; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'none'">
+<title>Media Hub</title>
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0e1014">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="logo">▶</span><span>Media Hub</span></div>
+    <nav id="nav" aria-label="Secciones"></nav>
+    <p class="side-foot">Solo contenido legal y gratuito</p>
+  </aside>
+
+  <main>
+    <header class="top">
+      <form id="searchForm" role="search">
+        <input id="q" type="search" placeholder="Buscar…" autocomplete="off" aria-label="Buscar">
+        <select id="scope" aria-label="Dónde buscar">
+          <option value="cine">Películas y series</option>
+          <option value="clasico">Cine clásico libre</option>
+          <option value="docs">Documentales</option>
+          <option value="musica">Música</option>
+          <option value="tv">TV en directo</option>
+          <option value="radio">Radio</option>
+          <option value="podcasts">Podcasts</option>
+          <option value="libros">Audiolibros</option>
+        </select>
+        <button type="submit">Buscar</button>
+      </form>
+    </header>
+    <section id="view" tabindex="-1" aria-live="polite"></section>
+  </main>
+</div>
+
+<div id="yt" class="yt" hidden>
+  <div class="yt-head"><span id="ytTitle"></span><button id="ytClose" aria-label="Cerrar vídeo">✕</button></div>
+  <iframe id="ytFrame" title="Reproductor de YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+<div id="player" class="player" hidden>
+  <button class="p-info" id="pInfo" title="Ver cola de reproducción"><strong id="pTitle"></strong><small id="pSub"></small></button>
+  <div class="p-ctl">
+    <button id="pPrev" title="Anterior" aria-label="Anterior">⏮</button>
+    <audio id="audio" controls preload="none"></audio>
+    <button id="pNext" title="Siguiente" aria-label="Siguiente">⏭</button>
+    <button id="pClose" title="Cerrar" aria-label="Cerrar reproductor">✕</button>
+  </div>
+</div>
+
+<dialog id="videoDlg">
+  <div class="v-head"><strong id="vTitle"></strong><button id="vClose" aria-label="Cerrar">✕</button></div>
+  <video id="video" controls playsinline></video>
+  <p id="vMsg" class="v-msg" hidden></p>
+</dialog>
+
+<dialog id="detailDlg" class="panel">
+  <button class="x" id="dClose" aria-label="Cerrar">✕</button>
+  <div id="dBody"></div>
+</dialog>
+
+<dialog id="listDlg" class="panel small">
+  <button class="x" id="lClose" aria-label="Cerrar">✕</button>
+  <div id="lBody"></div>
+</dialog>
+
+<dialog id="queueDlg" class="panel small">
+  <button class="x" id="qClose" aria-label="Cerrar">✕</button>
+  <div id="qBody"></div>
+</dialog>
+
+<div id="toast" class="toast" role="status" hidden></div>
+<script src="vendor/hls.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
