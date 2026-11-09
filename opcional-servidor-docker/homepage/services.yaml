@@ -1,0 +1,57 @@
+- Tu biblioteca:
+    - Jellyfin (películas, series, documentales):
+        icon: jellyfin.png
+        href: http://localhost:8096
+        description: Tu Netflix personal
+    - Navidrome (música):
+        icon: navidrome.png
+        href: http://localhost:4533
+        description: Servidor de música
+    - Audiobookshelf (podcasts y audiolibros):
+        icon: audiobookshelf.png
+        href: http://localhost:13378
+        description: Podcasts y audiolibros
+
+- Streaming legal gratuito:
+    - RTVE Play:
+        icon: mdi-television-play
+        href: https://www.rtve.es/play/
+        description: TV a la carta y directos
+    - Pluto TV:
+        icon: mdi-television-classic
+        href: https://pluto.tv/es
+        description: Canales y cine gratis con anuncios
+    - Tubi:
+        icon: mdi-movie-open
+        href: https://tubitv.com
+        description: Cine y series gratis con anuncios
+    - Arte.tv:
+        icon: mdi-palette
+        href: https://www.arte.tv/es/
+        description: Documentales y cultura
+    - YouTube:
+        icon: youtube.png
+        href: https://www.youtube.com
+        description: Vídeo bajo demanda
+    - Internet Archive:
+        icon: mdi-archive
+        href: https://archive.org/details/movies
+        description: Cine y vídeo de dominio público
+
+- Descubrir música y audio:
+    - Jamendo:
+        icon: mdi-music-note
+        href: https://www.jamendo.com
+        description: Música libre
+    - Free Music Archive:
+        icon: mdi-music-circle
+        href: https://freemusicarchive.org
+        description: Música con licencias abiertas
+    - LibriVox:
+        icon: mdi-book-music
+        href: https://librivox.org
+        description: Audiolibros de dominio público
+    - Project Gutenberg:
+        icon: mdi-book-open-page-variant
+        href: https://www.gutenberg.org
+        description: Libros gratuitos
