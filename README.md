@@ -222,3 +222,4 @@ media-hub/
 ## 📄 Licencia
 
 Este proyecto está bajo la Licencia [MIT](LICENSE). Puedes usarlo, modificarlo y distribuirlo libremente.
+
