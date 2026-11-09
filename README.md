@@ -1,225 +1,350 @@
-# Media Hub 🎬🎵📻
+# MediaHub
 
-> **Centro de entretenimiento personal, gratuito y 100% legal.**
-> Películas, series, cine clásico, documentales, música en streaming, televisión en directo, radio internacional, podcasts, audiolibros y biblioteca personal local reunidos en una única interfaz moderna y rápida.
-
----
-
-## 📌 Tabla de Contenidos
-
-1. [Visión General](#-visión-general)
-2. [Características Principales](#-características-principales)
-3. [Versiones: Escritorio vs Web](#-versiones-escritorio-vs-web)
-4. [Instalación y Uso Rápido](#-instalación-y-uso-rápido)
-5. [Claves de API Opcionales](#-claves-de-api-opcionales)
-6. [Guía para Desarrolladores](#-guía-para-desarrolladores)
-7. [Estructura del Proyecto](#-estructura-del-proyecto)
-8. [Seguridad y Privacidad](#-seguridad-y-privacidad)
-9. [Solución de Problemas](#-solución-de-problemas)
-10. [Fuentes y Atribuciones](#-fuentes-y-atribuciones)
+[Español](#español) | [English](#english)
 
 ---
 
-## 🌟 Visión General
+<a name="español"></a>
+## Español
 
-**Media Hub** es una solución ligera pensada para disfrutar de contenido multimedia sin cuentas, suscripciones obligatorias ni telemetría invasiva.
-
-Combina dos modalidades de uso:
-- **Aplicación de Escritorio (Windows / Electron)**: Rendimiento nativo, lectura de carpetas locales, servidor HTTP interno para streaming local con soporte de rangos (`bytes`) y elusión segura de CORS para canales IPTV y podcasts.
-- **Aplicación Web Estática (PWA / Navegador)**: Totalmente autónoma (HTML5, CSS moderno y Vanilla JavaScript), desplegable en cualquier hosting estático (GitHub Pages, Netlify, Vercel, Cloudflare Pages) o ejecutable localmente sin backend.
-
----
-
-## 🚀 Características Principales
-
-### 🎥 Películas y Series
-- Catálogo sincronizado mediante la API de **The Movie Database (TMDB)**.
-- Consulta de carátulas en alta resolución, sinopsis en español, puntuación, año, géneros, idioma original y tráiler oficial integrado.
-- **Dónde ver legalmente**: integración con **JustWatch** para ver en qué plataformas gratuitas o de suscripción (RTVE Play, Pluto TV, Rakuten, Netflix, Prime Video, HBO Max, etc.) está disponible en España.
-- Filtros por idioma, categoría y filtro exclusivo *"Solo contenido gratuito"*.
-
-### 🏛️ Cine Clásico Libre y Documentales
-- Miles de películas de dominio público, obras maestras históricas y documentales procedentes de **Internet Archive**.
-- Reproducción directa dentro de la propia aplicación mediante reproductor HTML5 nativo.
-
-### 🎵 Música en Streaming
-- Reproductor de audio completo con controles de reproducción, barra de progreso, volumen, cola de reproducción y gestión de listas.
-- Fuentes musicales abiertas y legales: **Audius**, **Jamendo** e **Internet Archive**.
-- Compatibilidad con enlaces de **YouTube** a través de su reproductor oficial incrustado.
-
-### 📺 Televisión en Directo (IPTV)
-- Acceso a cientos de canales de emisión abierta del repositorio abierto verificado **iptv-org**.
-- Reproducción HLS en tiempo real con **hls.js**.
-- Sistema de failover inteligente: si un stream falla o cae, la app conmuta automáticamente a la siguiente fuente alternativa disponible del canal.
-- Filtros por país, categorías (noticias, deportes, música, infantil, generalistas) y favoritos.
-
-### 📻 Radio Mundial
-- Directorio en vivo conectado a **Radio Browser** con miles de emisoras ordenadas por país, etiquetas y popularidad.
-
-### 🎙️ Podcasts y Audiolibros
-- Buscador global de podcasts mediante el directorio de **iTunes** y reproducción directa de feeds RSS.
-- Audiolibros completos en español y otros idiomas cortesía de **LibriVox** y grabaciones de dominio público.
-
-### 📂 Mi Biblioteca Local
-- Selecciona cualquier carpeta de tu disco duro.
-- Escaneo rápido de archivos de vídeo (`.mp4`, `.m4v`, `.webm`, `.mkv`, `.mov`, `.avi`) y audio (`.mp3`, `.m4a`, `.flac`, `.ogg`, `.opus`, `.wav`, `.aac`).
-- Streaming local protegido mediante token aleatorio generado en memoria, con soporte completo de seek (adelantar y retroceder fluidamente).
-- Botón de apertura externa (↗) para reproducir cualquier archivo con tu reproductor del sistema (por ejemplo, VLC o MPC-HC).
+### Índice
+- [MediaHub](#mediahub)
+  - [Español](#español)
+    - [Índice](#índice)
+    - [1. Descripción General](#1-descripción-general)
+    - [2. Características Principales](#2-características-principales)
+    - [3. Flujo de la Aplicación](#3-flujo-de-la-aplicación)
+    - [4. Estructura del Proyecto](#4-estructura-del-proyecto)
+    - [5. Versiones: Escritorio vs Web](#5-versiones-escritorio-vs-web)
+    - [6. Instalación y Uso](#6-instalación-y-uso)
+      - [Aplicación de Escritorio (Windows)](#aplicación-de-escritorio-windows)
+      - [Versión Web](#versión-web)
+    - [7. Claves de API Opcionales](#7-claves-de-api-opcionales)
+    - [8. Desarrollo y Compilación](#8-desarrollo-y-compilación)
+      - [Requisitos](#requisitos)
+      - [Pasos de desarrollo](#pasos-de-desarrollo)
+    - [9. Seguridad y Privacidad](#9-seguridad-y-privacidad)
+    - [10. Atribuciones](#10-atribuciones)
+  - [English](#english)
+    - [Table of Contents](#table-of-contents)
+    - [1. Overview](#1-overview)
+    - [2. Key Features](#2-key-features)
+    - [3. Application Architecture](#3-application-architecture)
+    - [4. Project Structure](#4-project-structure)
+    - [5. Desktop vs Web Version](#5-desktop-vs-web-version)
+    - [6. Installation and Usage](#6-installation-and-usage)
+      - [Desktop Version (Windows)](#desktop-version-windows)
+      - [Web Version](#web-version)
+    - [7. Optional API Keys](#7-optional-api-keys)
+    - [8. Development and Build](#8-development-and-build)
+      - [Prerequisites](#prerequisites)
+      - [Commands](#commands)
+    - [9. Security and Privacy](#9-security-and-privacy)
+    - [10. Attributions](#10-attributions)
 
 ---
 
-## 💻 Versiones: Escritorio vs Web
+### 1. Descripción General
 
-| Característica | Escritorio (`.exe`) | Web Estática (`web/`) |
-|---|:---:|:---:|
-| **Instalación** | No requiere (Portable) | En navegador o PWA |
-| **TV en Directo (HLS sin bloqueos CORS)** | ✅ Completo | ⚠️ Limitado por cabeceras CORS del emisor |
-| **Biblioteca Local (Carpetas del PC)** | ✅ Sí | ❌ No accesible por sandbox de navegador |
-| **Carga de claves vía `.env` local** | ✅ Sí | ⚠️ Solo vía menú Ajustes (`localStorage`) |
-| **Apertura de archivos en VLC/Sistema** | ✅ Sí | ❌ No soportado en navegadores web |
-| **Podcasts con cualquier feed RSS** | ✅ Sí | ⚠️ Solo feeds con cabeceras CORS abiertas |
+MediaHub es un centro multimedia de escritorio y entorno web diseñado para centralizar películas, series, documentales, cine clásico, música en streaming, televisión en directo, radio internacional, podcasts, audiolibros y archivos locales en una única interfaz unificada.
+
+Está concebido bajo principios de privacidad, rapidez y legalidad, sin incluir telemetría, rastreadores ni dependencias de servidores propietarios externos.
 
 ---
 
-## 📦 Instalación y Uso Rápido
+### 2. Características Principales
 
-### Opción 1: Ejecutable Portable para Windows (.exe)
-1. Descarga o abre el archivo en la carpeta `release/`:
-   ```
-   MediaHub-1.0.0-portable.exe
-   ```
-2. Haz doble clic sobre el ejecutable. No requiere instalador ni permisos de administrador.
-3. *(Opcional)*: Crea un archivo `.env` en la misma carpeta del `.exe` con tus claves gratuitas (ver sección siguiente).
+* Películas y Series: Catálogo alimentado mediante la API de The Movie Database (TMDB) con integración de disponibilidad en plataformas legales en España a través de JustWatch.
+* Cine Clásico y Documentales: Acceso directo a obras de dominio público y licencias abiertas alojadas en Internet Archive.
+* Música en Streaming: Integración con catálogos libres de Audius, Jamendo e Internet Archive, junto a soporte de enlaces de YouTube mediante su reproductor oficial.
+* TV en Directo: Canales de emisión pública internacional provenientes del catálogo iptv-org con reproductor HLS nativo y soporte de fallback automático entre fuentes.
+* Radio Internacional: Directorio global conectado a la API de Radio Browser.
+* Podcasts y Audiolibros: Buscador e interfaz de reproducción para episodios RSS (vía iTunes) y audiolibros de dominio público (LibriVox).
+* Biblioteca Local: Escaneo y reproducción de archivos de audio y vídeo de tu propio equipo con soporte de streaming local dinamizado con tokens en memoria y compatibilidad para abrir archivos en reproductores del sistema.
 
-> **Aviso de Windows SmartScreen**: Al ser un binario de código abierto sin certificado comercial de pago de Microsoft, Windows puede mostrar la ventana informativa de SmartScreen. Haz clic en **«Más información»** y luego en **«Ejecutar de todas formas»**.
+---
 
-### Opción 2: Versión Web Estática
-Puedes servir la carpeta `web/` con cualquier servidor HTTP local:
-```bash
-# Con Node.js:
-npx serve web -l 8080
+### 3. Flujo de la Aplicación
 
-# Con Python (si está disponible):
-python -m http.server 8080 --directory web
 ```
-Abre tu navegador en `http://localhost:8080`.
++-----------------------------------------------------------------------+
+|                              MediaHub                                 |
++-----------------------------------------------------------------------+
+                                   |
+         +-------------------------+-------------------------+
+         |                                                   |
++------------------+                               +------------------+
+| Proceso Electron |                               |  Interfaz Web    |
+|   (main.js)      |                               |    (app.js)      |
++------------------+                               +------------------+
+         |                                                   |
+         +---> Servidor Local HTTP (127.0.0.1:PUERTO) <------+
+         |     - Streaming seguro de archivos con Token      |
+         |     - Gestión de rangos (bytes) para Seek        |
+         |                                                   |
+         +---> Servicios Externos APIs                       |
+               - TMDB / JustWatch / Internet Archive         |
+               - Audius / Jamendo / Radio Browser / IPTV-org  |
+```
 
 ---
 
-## 🔑 Claves de API Opcionales
-
-La aplicación es **100% funcional sin ninguna clave de API**: Internet Archive, TV en directo, Radio, Audius, Podcasts, Audiolibros y Biblioteca local funcionan desde el primer momento.
-
-Para enriquecer el catálogo de películas/series y música indie, puedes añadir claves gratuitas:
-
-| Servicio | Variable | Utilidad | Registro gratuito |
-|---|---|---|---|
-| **TMDB** | `TMDB_API_KEY` | Fichas de películas/series y plataformas JustWatch | [themoviedb.org/settings/api](https://www.themoviedb.org/settings/api) |
-| **Jamendo** | `JAMENDO_CLIENT_ID` | Búsqueda y streaming en catálogo Jamendo | [devportal.jamendo.com](https://devportal.jamendo.com) |
-
-### Cómo configurarlas:
-- **En la app de Escritorio**: Copia el archivo `.env.example` como `.env` junto al ejecutable y añade tus claves. También puedes usar el botón *"Crear .env de ejemplo"* dentro de la pantalla **Ajustes** de la app.
-- **En la versión Web**: Dirígete a **Ajustes** dentro de la interfaz web e introdúcelas en los campos correspondientes (se almacenan únicamente en el `localStorage` de tu propio navegador).
-
----
-
-## 🛠️ Guía para Desarrolladores
-
-### Requisitos previos
-- **Node.js**: versión 20.x o superior.
-- **npm**: gestor de paquetes estándar de Node.
-
-### Pasos de compilación
-
-1. **Clonar o descargar el proyecto**:
-   ```bash
-   git clone <URL_DEL_REPOSITORIO>
-   cd media-hub
-   ```
-
-2. **Instalar dependencias**:
-   ```bash
-   npm install
-   ```
-
-3. **Iniciar en modo desarrollo (Electron)**:
-   ```bash
-   npm start
-   ```
-
-4. **Probar la versión web estática**:
-   ```bash
-   npm run web
-   ```
-
-5. **Compilar ejecutable de Windows con icono personalizado**:
-   ```bash
-   # Generar versión portable autoejecutable (.exe con icono):
-   npm run dist:win
-
-   # Generar versión descomprimida directa (dist/win-unpacked):
-   npm run dist:win-dir
-   ```
-   El binario resultante se generará en la carpeta `dist/`.
-
----
-
-## 📁 Estructura del Proyecto
+### 4. Estructura del Proyecto
 
 ```
 media-hub/
-├── build/                      # Recursos de compilación y empaquetado
-│   └── icon.ico                # Icono multi-resolución de Windows (16 a 256px)
-├── electron/                   # Backend de escritorio con Electron
-│   ├── main.js                 # Proceso principal: servidor local, IPC, streaming y CORS
-│   └── preload.js              # Puente de contexto seguro (ContextBridge)
-├── web/                        # Frontend de la aplicación (Web Estática y PWA)
-│   ├── icons/                  # Iconos PWA y web (SVG, PNG, ICO)
+├── build/                      # Recursos de empaquetado e iconos
+│   └── icon.ico                # Icono de aplicación para Windows
+├── electron/                   # Código del backend de escritorio
+│   ├── main.js                 # Proceso principal, servidor local HTTP e IPC
+│   └── preload.js              # Puente seguro de contexto (contextBridge)
+├── web/                        # Interfaz gráfica estática (PWA / Web)
+│   ├── icons/                  # Iconografía y recursos gráficos
 │   ├── vendor/                 # Librerías cliente (hls.min.js)
-│   ├── index.html              # Estructura principal y diálogos de interfaz
-│   ├── styles.css              # Diseño responsive, temas claro/oscuro y componentes
-│   ├── app.js                  # Lógica del cliente, reproductores, APIs y estado
-│   ├── manifest.webmanifest    # Manifiesto de aplicación web progresiva (PWA)
-│   └── sw.js                   # Service Worker para funcionamiento offline
-├── release/                    # Carpeta para binarios compilados listos para distribución
-├── .env.example                # Plantilla de variables de entorno
-├── .gitignore                  # Exclusiones de Git (node_modules, dist, .env)
-└── package.json                # Metadatos del proyecto, scripts y configuración de electron-builder
+│   ├── app.js                  # Lógica del cliente, estado y reproductores
+│   ├── index.html              # Estructura principal y contenedores
+│   ├── manifest.webmanifest    # Configuración PWA
+│   ├── styles.css              # Hoja de estilos principal
+│   └── sw.js                   # Service Worker para ejecución web
+├── .env.example                # Plantilla para claves de API opcionales
+├── package.json                # Configuración de dependencias y electron-builder
+└── README.md                   # Documentación principal del proyecto
 ```
 
 ---
 
-## 🔒 Seguridad y Privacidad
+### 5. Versiones: Escritorio vs Web
 
-- **Sin analíticas ni rastreo**: No existe telemetría ni envío de datos a servidores externos. Favoritos, historial, listas y claves residen exclusivamente en local.
-- **Servidor local restringido**: El servidor interno de Electron solo escucha en `127.0.0.1` en un puerto dinámico y requiere un token criptográfico generado aleatoriamente en cada inicio para acceder a archivos locales.
-- **Aislamiento de contexto**: `nodeIntegration: false`, `contextIsolation: true` y `sandbox: true` activos en las ventanas de Electron.
-- **Protección de ejecución**: El puente IPC solo permite solicitar la apertura de extensiones de medios explícitamente autorizadas; nunca permite ejecutar archivos de sistema o scripts externos.
-
----
-
-## ❓ Solución de Problemas
-
-- **«Falta la clave de TMDB»**: El catálogo de novedades y fichas cinematográficas requiere la clave gratuita. Regístrate en TMDB, obtén tu clave y colócala en el archivo `.env` o en la sección Ajustes.
-- **Un canal de TV no carga**: Las transmisiones IPTV en abierto pueden saturarse o quedar inactivas por las emisoras. Media Hub intenta automáticamente otras fuentes; si ninguna responde, el canal no está transmitiendo en ese momento.
-- **Un vídeo local no se visualiza en la ventana integrada**: Formatos como MKV con códecs específicos (HEVC/H.265, DTS) pueden no ser compatibles con el decodificador nativo de Chromium. Utiliza el botón **↗** situado junto al archivo para reproducirlo al instante en VLC u otro reproductor de tu elección.
+| Función | Aplicación Escritorio | Versión Web Estática |
+|---|---|---|
+| Instalación | Portable (sin instalación) | Navegador web / PWA |
+| TV en Directo (HLS) | Sin restricciones CORS | Sujeto a políticas CORS de emisores |
+| Escaneo de Biblioteca Local | Soportado mediante Node.js | No disponible por aislamiento del navegador |
+| Carga de claves `.env` | Soportado en carpeta local | Almacenamiento en `localStorage` |
+| Reproducción con app del sistema | Soportado (VLC, etc.) | No disponible |
 
 ---
 
-## 📜 Fuentes y Atribuciones
+### 6. Instalación y Uso
 
-- **The Movie Database (TMDB)**: Datos descriptivos y carátulas de películas y series. *Este producto utiliza la API de TMDB pero no está avalado ni certificado por TMDB.*
-- **JustWatch**: Información de disponibilidad y servicios de streaming en España.
-- **iptv-org**: Listado comunitario de canales de televisión públicos y gratuitos.
-- **Internet Archive**: Archivo histórico de películas, documentales y audio de dominio público.
-- **Radio Browser**: Directorio libre de estaciones de radio por Internet.
-- **Audius** & **Jamendo**: Plataformas de música libre e independiente con licencias Creative Commons.
-- **LibriVox**: Catálogo de audiolibros libres grabados por voluntarios.
-- **hls.js**: Motor de reproducción HLS para JavaScript (Licencia Apache-2.0).
+#### Aplicación de Escritorio (Windows)
+1. Descarga el ejecutable `MediaHub-1.0.0-portable.exe` desde la sección de lanzamientos.
+2. Ejecuta el archivo de forma directa. No requiere permisos de administración ni instalación.
+
+#### Versión Web
+Puedes servir la carpeta `web/` con cualquier servidor de archivos estáticos:
+```bash
+npx serve web -l 8080
+```
+Navega a `http://localhost:8080` desde tu explorador.
 
 ---
 
-## 📄 Licencia
+### 7. Claves de API Opcionales
 
-Este proyecto está bajo la Licencia [MIT](LICENSE). Puedes usarlo, modificarlo y distribuirlo libremente.
+El sistema es plenamente funcional sin ninguna clave. Sin embargo, para enriquecer las fichas cinematográficas o el catálogo musical de Jamendo se pueden configurar las siguientes variables:
 
+* `TMDB_API_KEY`: Clave de API de The Movie Database.
+* `JAMENDO_CLIENT_ID`: Identificador de cliente para Jamendo API.
+
+En la aplicación de escritorio se pueden guardar en un archivo `.env` ubicado en el directorio del programa. En la versión web se pueden ingresar dentro del menú de Ajustes.
+
+---
+
+### 8. Desarrollo y Compilación
+
+#### Requisitos
+* Node.js v20.0.0 o superior
+* npm
+
+#### Pasos de desarrollo
+```bash
+# Instalar dependencias
+npm install
+
+# Iniciar en modo desarrollo con Electron
+npm start
+
+# Generar el ejecutable ejecutable portátil para Windows
+npm run build
+```
+
+---
+
+### 9. Seguridad y Privacidad
+
+* Aislamiento de Procesos: Electron ejecuta `contextIsolation: true`, `nodeIntegration: false` y `sandbox: true`.
+* Servidor HTTP Dinámico: Escucha únicamente en la interfaz de bucle de retorno `127.0.0.1` mediante un puerto aleatorio y valida cada petición con un token criptográfico generado por sesión.
+* Sin Telemetría: La aplicación no recopila ni transmite estadísticas de uso a ningún servidor.
+
+---
+
+### 10. Atribuciones
+
+* The Movie Database (TMDB) por la información cinematográfica.
+* JustWatch por los datos de disponibilidad de plataformas en España.
+* iptv-org por el catálogo abierto de emisiones públicas.
+* Radio Browser por el directorio global de radio.
+* Internet Archive, Audius, Jamendo y LibriVox por las fuentes de contenido libre.
+
+---
+
+<a name="english"></a>
+## English
+
+### Table of Contents
+1. [Overview](#1-overview)
+2. [Key Features](#2-key-features)
+3. [Application Architecture](#3-application-architecture)
+4. [Project Structure](#4-project-structure)
+5. [Desktop vs Web Version](#5-desktop-vs-web-version)
+6. [Installation and Usage](#6-installation-and-usage)
+7. [Optional API Keys](#7-optional-api-keys)
+8. [Development and Build](#8-development-and-build)
+9. [Security and Privacy](#9-security-and-privacy)
+10. [Attributions](#10-attributions)
+
+---
+
+### 1. Overview
+
+MediaHub is a lightweight desktop application and web client built to aggregate movies, TV shows, documentaries, classic films, streaming music, live TV, international radio, podcasts, audiobooks, and local media into a unified, responsive interface.
+
+It is designed with privacy, performance, and compliance in mind, operating without telemetry, trackers, or centralized tracking servers.
+
+---
+
+### 2. Key Features
+
+* Movies and TV Shows: Metadata fetched via The Movie Database (TMDB) API, paired with streaming availability in Spain via JustWatch integration.
+* Classic Cinema and Documentaries: Direct access to public domain films and open-licensed documentaries hosted on the Internet Archive.
+* Music Streaming: Native playback integration with Audius, Jamendo, Internet Archive, and embedded YouTube links.
+* Live TV: Access to public broadcast channels from the open iptv-org repository using native HLS playback and automated stream failover.
+* International Radio: Global directory access powered by the Radio Browser API.
+* Podcasts and Audiobooks: Search and playback capabilities for RSS feeds (via iTunes) and public domain audiobooks (LibriVox).
+* Local Media Library: Local folder scanning for audio and video files utilizing a secure local HTTP streaming server with seek support.
+
+---
+
+### 3. Application Architecture
+
+```
++-----------------------------------------------------------------------+
+|                              MediaHub                                 |
++-----------------------------------------------------------------------+
+                                   |
+         +-------------------------+-------------------------+
+         |                                                   |
++------------------+                               +------------------+
+| Electron Process |                               |    Web Client    |
+|   (main.js)      |                               |    (app.js)      |
++------------------+                               +------------------+
+         |                                                   |
+         +---> Local HTTP Server (127.0.0.1:PORT) <----------+
+         |     - Token-authenticated Local Streaming         |
+         |     - HTTP Range (bytes) support for Seek         |
+         |                                                   |
+         +---> External API Providers                        |
+               - TMDB / JustWatch / Internet Archive         |
+               - Audius / Jamendo / Radio Browser / IPTV-org  |
+```
+
+---
+
+### 4. Project Structure
+
+```
+media-hub/
+├── build/                      # Packaging resources and icon assets
+│   └── icon.ico                # Windows application icon
+├── electron/                   # Desktop backend code
+│   ├── main.js                 # Main process, local HTTP server, IPC
+│   └── preload.js              # Secure context bridge script
+├── web/                        # Frontend web assets (PWA / Web)
+│   ├── icons/                  # Web icons and manifests
+│   ├── vendor/                 # Client libraries (hls.min.js)
+│   ├── app.js                  # Frontend logic, state, and players
+│   ├── index.html              # HTML markup
+│   ├── manifest.webmanifest    # PWA configuration
+│   ├── styles.css              # Main application stylesheet
+│   └── sw.js                   # Service Worker implementation
+├── .env.example                # Template for optional API credentials
+├── package.json                # Project configuration and build scripts
+└── README.md                   # Main documentation file
+```
+
+---
+
+### 5. Desktop vs Web Version
+
+| Feature | Desktop App | Static Web Version |
+|---|---|---|
+| Installation | Portable executable | Web Browser / PWA |
+| Live TV (HLS) | Fully supported | Subject to provider CORS policies |
+| Local Library Scanning | Supported | Not available due to browser sandbox |
+| `.env` File Support | Supported | Stored in `localStorage` |
+| System Player Integration | Supported (VLC, etc.) | Not available |
+
+---
+
+### 6. Installation and Usage
+
+#### Desktop Version (Windows)
+1. Download `MediaHub-1.0.0-portable.exe` from the GitHub Releases section.
+2. Run the executable directly. No administrative privileges or installation steps are required.
+
+#### Web Version
+Serve the contents of the `web/` directory using any static file server:
+```bash
+npx serve web -l 8080
+```
+Open your browser and navigate to `http://localhost:8080`.
+
+---
+
+### 7. Optional API Keys
+
+The application functions completely out-of-the-box without API keys. However, optional services can be enabled with the following keys:
+
+* `TMDB_API_KEY`: The Movie Database API key for expanded metadata.
+* `JAMENDO_CLIENT_ID`: Jamendo API Client ID for indie music searching.
+
+For the desktop app, keys can be placed in a `.env` file alongside the executable. For the web version, enter them via the Settings screen.
+
+---
+
+### 8. Development and Build
+
+#### Prerequisites
+* Node.js v20.0.0 or higher
+* npm
+
+#### Commands
+```bash
+# Install dependencies
+npm install
+
+# Run application in development mode
+npm start
+
+# Build portable Windows executable
+npm run build
+```
+
+---
+
+### 9. Security and Privacy
+
+* Process Isolation: Electron processes operate with `contextIsolation: true`, `nodeIntegration: false`, and `sandbox: true`.
+* Local Server Security: The internal HTTP server binds strictly to `127.0.0.1` on a dynamic port and requires per-session cryptographic token authorization.
+* Zero Telemetry: No usage analytics or telemetry data are collected or transmitted.
+
+---
+
+### 10. Attributions
+
+* The Movie Database (TMDB) for movie and TV metadata.
+* JustWatch for streaming availability data.
+* iptv-org for public channel listings.
+* Radio Browser for global radio streams.
+* Internet Archive, Audius, Jamendo, and LibriVox for open media content.
