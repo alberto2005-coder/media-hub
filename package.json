@@ -1,6 +1,9 @@
 {
   "name": "media-hub",
   "version": "1.0.0",
+  "allowScripts": {
+    "electron": true
+  },
   "description": "Media Hub Portable",
   "author": "Alberto (alberto2005-coder)",
   "main": "electron/main.js",
@@ -9,10 +12,9 @@
     "build": "electron-builder --dir",
     "release": "electron-builder -p always"
   },
-  "dependencies": {},
   "devDependencies": {
-    "electron": "^28.0.0",
-    "electron-builder": "^24.9.0"
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0"
   },
   "build": {
     "appId": "com.mediahub.app",
@@ -26,7 +28,9 @@
       "package.json"
     ],
     "win": {
-      "target": ["portable"],
+      "target": [
+        "portable"
+      ],
       "icon": "build/icon.ico"
     },
     "portable": {

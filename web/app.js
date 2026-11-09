@@ -2,8 +2,8 @@
 /* Media Hub: app estática. Sin servidor propio y sin dependencias. */
 
 const $ = (s, r = document) => r.querySelector(s);
-const hub = window.hub || null; // API del .exe (Electron); null en la web
-const IS_APP = !!hub;
+const nativeAPI = window.hub || null;
+const IS_APP = !!nativeAPI;
 
 /* ---------- utilidades ---------- */
 const el = (tag, props = {}, ...kids) => {
