@@ -7,7 +7,7 @@ on:
 
 # Permisos necesarios para publicar en GitHub Pages y crear lanzamientos
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
