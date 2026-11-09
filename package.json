@@ -1,48 +1,35 @@
 {
   "name": "media-hub",
   "version": "1.0.0",
-  "description": "Centro de entretenimiento personal, gratuito y legal",
+  "description": "Media Hub Portable",
   "main": "electron/main.js",
-  "author": "Media Hub",
-  "license": "MIT",
-  "private": true,
   "scripts": {
     "start": "electron .",
-    "web": "npx --yes serve web -l 8080",
-    "dist:win": "electron-builder --win portable --x64",
-    "dist:win-dir": "electron-builder --win dir --x64"
+    "build": "electron-builder --dir",
+    "release": "electron-builder -p always"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.0"
   },
   "build": {
     "appId": "com.mediahub.app",
-    "productName": "Media Hub",
+    "productName": "MediaHub",
     "directories": {
-      "output": "dist"
+      "output": "release"
     },
     "files": [
-      "electron/**",
-      "web/**",
+      "electron/**/*",
+      "web/**/*",
       "package.json"
     ],
     "win": {
-      "icon": "web/icons/icon.ico",
-      "target": [
-        {
-          "target": "portable",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
+      "target": ["portable"],
+      "icon": "build/icon.ico"
     },
     "portable": {
       "artifactName": "MediaHub-${version}-portable.exe"
     }
-  },
-  "devDependencies": {
-    "electron": "^45.2.3",
-    "electron-builder": "^26.18.0"
-  },
-  "dependencies": {
-    "hls.js": "^1.7.4"
   }
 }
