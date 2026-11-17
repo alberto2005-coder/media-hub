@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://albertoortiz.is-a.dev/media-hub/sitemap.xml
